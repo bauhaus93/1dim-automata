@@ -8,13 +8,10 @@ logger = logging.getLogger()
 class Rule30:
 
     def __init__(self, size, dry_runs = 0):
-        size += 24 - size % 24
+        self.size = size
         self.cells = np.full(size, False)
-        self.cells[0] = True
+        self.cells[round(self.size / 2)] = True
         self.run(dry_runs)
-
-    def get_size(self):
-        return self.cells.shape[0]
 
     def run(self, count):
         for _ in range(count):
@@ -35,45 +32,17 @@ class Rule30:
             next_cells[i] = left ^ (center | right)
         self.cells = next_cells
 
-    def get_number(self):
-        self.tick()
-        return int(self.get_string(), 2)
-
-    def get_numbers(self, count):
-        for c in range(count):
-            yield self.get_number()
-
-    def create_line(self):
-        data = self.cells.reshape((-1, 8))
-        img = np.empty(len(data), dtype = np.uint8)
-        for i, bits in enumerate(data):
-            img[i] = int(self.get_string(bits), 2)
-        return img.reshape((1, -1, 3))
-
-    def create_fixed_line(self, width):
-        line = self.create_line()
-        full_line = None
-        for l in range(0, width, line.shape[1]):
-            self.tick()
-            if full_line is None:
-                full_line = line
-            else:
-                full_line = np.append(full_line, line, axis = 1)
-            line = self.create_line()
-        return full_line[:, :width]
-
-    def create_image(self, width, height, img_name):
+    def create_image(self, height, img_name):
         start_time = time.perf_counter()
-        logger.info("Creating image of size {}x{}".format(width, height))
-        img = np.empty((height, width, 3))
+        img = np.empty((height, self.size))
         for i in range(height):
-            line = self.create_fixed_line(width)
-            img[i, :] = line
+            f = lambda v: 0xFF if v else 0
+            img[i, :] = np.array([f(e) for e in self.cells])
             self.tick()
-            if i % int(width / 10) == 0:
-                logger.info("Progress: {:.2f}%".format(100 * i / width))
+            if i % int(height / 10) == 0:
+                logger.info("Progress: {}%".format(round(100 * i / height)))
         cv2.imwrite(img_name, img)
-        logger.info("Created image in {:.2f}s".format(time.perf_counter() - start_time))
+        logger.info("Image generated in {:.2f}s".format(time.perf_counter() - start_time))
 
     def get_string(self, bits = None):
         m = { True: "1", False: "0" }
