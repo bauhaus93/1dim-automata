@@ -10,6 +10,7 @@ def setup_logger():
     DATE_FORMAT = r"%Y-%m-%d %H:%M:%S"
     logging.basicConfig(level = logging.DEBUG, format = FORMAT, datefmt = DATE_FORMAT)
 
+#cool rules: 30, 90, 22, 160
 
 if __name__ == "__main__":
     logger = logging.getLogger()
@@ -18,8 +19,8 @@ if __name__ == "__main__":
     SCREEN_SIZE = (1024, 768)
     AUTOMATA_SIZE = SCREEN_SIZE[0]
     DELAY = 10
-    CHANGE_INTERVAL = 100
-    auto = automata.Automata(90, AUTOMATA_SIZE)
+    CHANGE_INTERVAL = 0
+    auto = automata.Automata(160, AUTOMATA_SIZE)
     visu = visual.Visualizer(auto, SCREEN_SIZE, DELAY, CHANGE_INTERVAL)
     visu.loop()
 

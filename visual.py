@@ -1,4 +1,3 @@
-import logging
 import time
 import random
 
@@ -10,7 +9,7 @@ RED = (0xFF, 0, 0)
 
 class Visualizer:
 
-    def __init__(self, automata, screen_size, delay, rule_change_interval = 0):
+    def __init__(self, automata, screen_size, delay, rule_change_interval = None):
         self.automata = automata
         self.screen_size = screen_size
         self.delay = delay
@@ -41,25 +40,31 @@ class Visualizer:
             self.handle_events()
             self.draw()
             self.automata.tick()
-            self.update_rule()
+            if self.rule_change_interval:
+                if self.rule_change_counter >= self.rule_change_interval:
+                    self.update_rule()
+                    self.rule_change_counter = 0
+                else:
+                    self.rule_change_counter += 1
+
             if self.automata.is_zero() or self.automata.is_one():
                 self.automata.randomize_state()
 
             pygame.time.delay(self.delay)
 
     def update_rule(self):
-        if self.rule_change_interval > 0:
-            if self.rule_change_counter > self.rule_change_interval:
-                self.automata.rule_number = random.randint(0, 0xFF)
-                self.text_surface = self.font.render("Rule{}".format(self.automata.rule_number), True, RED)
-                self.rule_change_counter = 0
-            else:
-                self.rule_change_counter += 1
+        self.automata.randomize_rule()
+        self.text_surface = self.font.render("Rule{}".format(self.automata.rule_number), True, RED)
     
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.constants.QUIT:
                 self.quit = True
+            elif event.type == pygame.constants.KEYDOWN:
+                if event.key == pygame.K_e:
+                    self.automata.randomize_state()
+                elif event.key == pygame.K_r:
+                    self.update_rule()
 
     def draw(self):
         for (index, cell) in enumerate(self.automata.cells):

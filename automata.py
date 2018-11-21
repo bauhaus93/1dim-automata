@@ -1,5 +1,6 @@
 import logging
 import time
+import random
 import numpy as np
 import cv2
 
@@ -14,6 +15,9 @@ class Automata:
         self.rule_number = rule_number
         self.size = size
         self.set_state_one_true()
+
+    def randomize_rule(self):
+        self.rule_number = random.randint(0, 0xFF)
 
     def randomize_state(self):
         self.cells = np.random.choice([0, 1], size = self.size)
