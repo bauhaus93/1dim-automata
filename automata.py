@@ -44,7 +44,7 @@ class Automata:
             v |= self.cells[(i + 1) % self.size]
             next_cells[i] = rule(self.rule_number, v)
         self.cells = next_cells
-
+   
     def get_string(self, bits = None):
         return "".join(str(c) for c in self.cells)
 

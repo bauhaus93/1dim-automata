@@ -19,7 +19,6 @@ class Visualizer:
 
         pygame.init()
 
-
         pygame.display.set_caption("Automata")
         self.display = pygame.display.set_mode(screen_size)
 
@@ -28,7 +27,7 @@ class Visualizer:
         self.diagram.fill(BLACK)
 
         pygame.font.init()
-        self.font = pygame.font.SysFont("Arial", 20)
+        self.font = pygame.font.SysFont("Arial", 40)
         self.update_text()
 
         self.line_index = 0
@@ -53,7 +52,7 @@ class Visualizer:
             pygame.time.delay(self.delay)
 
     def update_text(self):
-        self.text_surface = self.font.render("Rule{}".format(self.automata.rule_number), True, WHITE, "BLACK")
+        self.text_surface = self.font.render("Rule{}".format(self.automata.rule_number), True, WHITE, BLACK)
 
     def update_rule(self):
         self.automata.randomize_rule()

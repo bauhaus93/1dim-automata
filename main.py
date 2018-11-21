@@ -19,7 +19,7 @@ if __name__ == "__main__":
     SCREEN_SIZE = (1024, 768)
     AUTOMATA_SIZE = SCREEN_SIZE[0]
     DELAY = 10
-    CHANGE_INTERVAL = 0
+    CHANGE_INTERVAL = 10
     auto = automata.Automata(160, AUTOMATA_SIZE)
     visu = visual.Visualizer(auto, SCREEN_SIZE, DELAY, CHANGE_INTERVAL)
     visu.loop()
