@@ -16,11 +16,11 @@ if __name__ == "__main__":
     logger = logging.getLogger()
     setup_logger()
 
-    SCREEN_SIZE = (1024, 768)
+    SCREEN_SIZE = (1600, 900)
     AUTOMATA_SIZE = SCREEN_SIZE[0]
     DELAY = 10
-    CHANGE_INTERVAL = 10
-    auto = automata.Automata(160, AUTOMATA_SIZE)
+    CHANGE_INTERVAL = 200
+    auto = automata.Automata(30, AUTOMATA_SIZE)
     visu = visual.Visualizer(auto, SCREEN_SIZE, DELAY, CHANGE_INTERVAL)
     visu.loop()
 

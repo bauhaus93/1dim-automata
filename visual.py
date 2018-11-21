@@ -48,6 +48,7 @@ class Visualizer:
 
             if self.automata.is_zero() or self.automata.is_one():
                 self.automata.randomize_state()
+                self.update_rule()
 
             pygame.time.delay(self.delay)
 
