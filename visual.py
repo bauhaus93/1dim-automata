@@ -58,7 +58,14 @@ class Visualizer:
     def update_rule(self):
         self.automata.randomize_rule()
         self.update_text()
-    
+
+    def reset(self):
+        self.diagram.fill(BLACK)
+        self.rule_change_counter = 0
+        self.line_index = 0
+        self.update_rule()
+        self.automata.set_state_one_true()
+
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == pygame.constants.QUIT:
@@ -68,6 +75,8 @@ class Visualizer:
                     self.automata.randomize_state()
                 elif event.key == pygame.K_r:
                     self.update_rule()
+                elif event.key == pygame.K_t:
+                    self.reset()
 
     def draw(self):
         for (index, cell) in enumerate(self.automata.cells):

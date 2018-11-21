@@ -11,13 +11,16 @@ def rule(number, value):
 
 class Automata:
 
-    def __init__(self, rule_number, size):
+    def __init__(self, rule_number, size, allow_odd_rule = False):
         self.rule_number = rule_number
         self.size = size
+        self.allow_odd_rule = allow_odd_rule
         self.set_state_one_true()
 
     def randomize_rule(self):
         self.rule_number = random.randint(0, 0xFF)
+        if not self.allow_odd_rule and self.rule_number % 2 == 1:
+            self.rule_number = (self.rule_number + 1) % 256
 
     def randomize_state(self):
         self.cells = np.random.choice([0, 1], size = self.size)
