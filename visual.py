@@ -29,7 +29,7 @@ class Visualizer:
 
         pygame.font.init()
         self.font = pygame.font.SysFont("Arial", 20)
-        self.text_surface = self.font.render("Rule{}".format(self.automata.rule_number), True, RED)
+        self.update_text()
 
         self.line_index = 0
         self.quit = False
@@ -52,9 +52,12 @@ class Visualizer:
 
             pygame.time.delay(self.delay)
 
+    def update_text(self):
+        self.text_surface = self.font.render("Rule{}".format(self.automata.rule_number), True, WHITE, "BLACK")
+
     def update_rule(self):
         self.automata.randomize_rule()
-        self.text_surface = self.font.render("Rule{}".format(self.automata.rule_number), True, RED)
+        self.update_text()
     
     def handle_events(self):
         for event in pygame.event.get():
